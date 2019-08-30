@@ -1,7 +1,8 @@
 # Copyright 2019 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class HolidaysRequest(models.Model):
@@ -50,3 +51,10 @@ class HolidaysRequest(models.Model):
             if not leave.meeting_id and leave.meeting_id.user_id:
                 continue
             leave._office_365_push()
+
+    @api.multi
+    def action_refuse(self):
+        return super(
+            HolidaysRequest,
+            self.with_context(o365_override_user=True)
+        ).action_refuse()
