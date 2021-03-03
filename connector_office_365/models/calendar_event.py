@@ -246,11 +246,11 @@ class CalendarEvent(models.Model):
                     _logger.error(
                         'calendar event unlink: attempt by user %s to unlink '
                         'record %s owned by user %s',
-                        self.env.user, record, record.user_id)
+                        self.env.user, event, event.user_id)
                     raise exceptions.UserError(
                         _('You are not the organizer of the '
                           'event {} ({}) please try delete this event in Office 365.').format(
-                              record.name, record.user_id.name)
+                              event.name, event.user_id.name)
                     )
                 try:
                     user.office_365_delete(
